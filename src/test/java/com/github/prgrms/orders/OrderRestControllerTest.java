@@ -3,12 +3,14 @@ package com.github.prgrms.orders;
 import com.github.prgrms.configures.JwtTokenConfigure;
 import com.github.prgrms.security.WithMockJwtAuthentication;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +18,7 @@ import java.util.Map;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -84,17 +87,17 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("findAll"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response").isArray())
-                .andExpect(jsonPath("$.response.length()", is(2)))
-                .andExpect(jsonPath("$.response[0].seq", is(7)))
-                .andExpect(jsonPath("$.response[0].productId", is(productIdForOrderId.get(7))))
-                .andExpect(jsonPath("$.response[0].state", is(stateForOrderId.get(7))))
-                .andExpect(jsonPath("$.response[1].seq", is(6)))
-                .andExpect(jsonPath("$.response[1].productId", is(productIdForOrderId.get(6))))
-                .andExpect(jsonPath("$.response[1].state", is(stateForOrderId.get(6))))
-                .andExpect(jsonPath("$.response[1].rejectMessage", is(rejectMessageForOrderId.get(6))))
-                .andExpect(jsonPath("$.response[1].rejectedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.length()", is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].seq", is(7)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].productId", is(productIdForOrderId.get(7))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].state", is(stateForOrderId.get(7))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].seq", is(6)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].productId", is(productIdForOrderId.get(6))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].state", is(stateForOrderId.get(6))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].rejectMessage", is(rejectMessageForOrderId.get(6))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].rejectedAt").exists())
         ;
     }
 
@@ -113,13 +116,13 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("findAll"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response").isArray())
-                .andExpect(jsonPath("$.response.length()", is(1)))
-                .andExpect(jsonPath("$.response[0].seq", is(5)))
-                .andExpect(jsonPath("$.response[0].productId", is(productIdForOrderId.get(5))))
-                .andExpect(jsonPath("$.response[0].state", is(stateForOrderId.get(5))))
-                .andExpect(jsonPath("$.response[0].completedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.length()", is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].seq", is(5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].productId", is(productIdForOrderId.get(5))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].state", is(stateForOrderId.get(5))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].completedAt").exists())
         ;
     }
 
@@ -138,31 +141,31 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("findAll"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response").isArray())
-                .andExpect(jsonPath("$.response.length()", is(5)))
-                .andExpect(jsonPath("$.response[0].seq", is(7)))
-                .andExpect(jsonPath("$.response[0].productId", is(productIdForOrderId.get(7))))
-                .andExpect(jsonPath("$.response[0].state", is(stateForOrderId.get(7))))
-                .andExpect(jsonPath("$.response[1].seq", is(6)))
-                .andExpect(jsonPath("$.response[1].productId", is(productIdForOrderId.get(6))))
-                .andExpect(jsonPath("$.response[1].state", is(stateForOrderId.get(6))))
-                .andExpect(jsonPath("$.response[1].rejectMessage", is(rejectMessageForOrderId.get(6))))
-                .andExpect(jsonPath("$.response[1].rejectedAt").exists())
-                .andExpect(jsonPath("$.response[2].seq", is(5)))
-                .andExpect(jsonPath("$.response[2].productId", is(productIdForOrderId.get(5))))
-                .andExpect(jsonPath("$.response[2].state", is(stateForOrderId.get(5))))
-                .andExpect(jsonPath("$.response[2].completedAt").exists())
-                .andExpect(jsonPath("$.response[3].seq", is(4)))
-                .andExpect(jsonPath("$.response[3].productId", is(productIdForOrderId.get(4))))
-                .andExpect(jsonPath("$.response[3].state", is(stateForOrderId.get(4))))
-                .andExpect(jsonPath("$.response[3].requestMessage", is(requestMessageForOrderId.get(4))))
-                .andExpect(jsonPath("$.response[3].completedAt").exists())
-                .andExpect(jsonPath("$.response[3].review").exists())
-                .andExpect(jsonPath("$.response[3].review.content", is("I like it!")))
-                .andExpect(jsonPath("$.response[4].seq", is(3)))
-                .andExpect(jsonPath("$.response[4].productId", is(productIdForOrderId.get(3))))
-                .andExpect(jsonPath("$.response[4].state", is(stateForOrderId.get(3))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.length()", is(5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].seq", is(7)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].productId", is(productIdForOrderId.get(7))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].state", is(stateForOrderId.get(7))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].seq", is(6)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].productId", is(productIdForOrderId.get(6))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].state", is(stateForOrderId.get(6))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].rejectMessage", is(rejectMessageForOrderId.get(6))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].rejectedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[2].seq", is(5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[2].productId", is(productIdForOrderId.get(5))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[2].state", is(stateForOrderId.get(5))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[2].completedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].seq", is(4)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].productId", is(productIdForOrderId.get(4))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].state", is(stateForOrderId.get(4))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].requestMessage", is(requestMessageForOrderId.get(4))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].completedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].review").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].review.content", is("I like it!")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[4].seq", is(3)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[4].productId", is(productIdForOrderId.get(3))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[4].state", is(stateForOrderId.get(3))))
         ;
     }
 
@@ -179,31 +182,31 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("findAll"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response").isArray())
-                .andExpect(jsonPath("$.response.length()", is(5)))
-                .andExpect(jsonPath("$.response[0].seq", is(7)))
-                .andExpect(jsonPath("$.response[0].productId", is(productIdForOrderId.get(7))))
-                .andExpect(jsonPath("$.response[0].state", is(stateForOrderId.get(7))))
-                .andExpect(jsonPath("$.response[1].seq", is(6)))
-                .andExpect(jsonPath("$.response[1].productId", is(productIdForOrderId.get(6))))
-                .andExpect(jsonPath("$.response[1].state", is(stateForOrderId.get(6))))
-                .andExpect(jsonPath("$.response[1].rejectMessage", is(rejectMessageForOrderId.get(6))))
-                .andExpect(jsonPath("$.response[1].rejectedAt").exists())
-                .andExpect(jsonPath("$.response[2].seq", is(5)))
-                .andExpect(jsonPath("$.response[2].productId", is(productIdForOrderId.get(5))))
-                .andExpect(jsonPath("$.response[2].state", is(stateForOrderId.get(5))))
-                .andExpect(jsonPath("$.response[2].completedAt").exists())
-                .andExpect(jsonPath("$.response[3].seq", is(4)))
-                .andExpect(jsonPath("$.response[3].productId", is(productIdForOrderId.get(4))))
-                .andExpect(jsonPath("$.response[3].state", is(stateForOrderId.get(4))))
-                .andExpect(jsonPath("$.response[3].requestMessage", is(requestMessageForOrderId.get(4))))
-                .andExpect(jsonPath("$.response[3].completedAt").exists())
-                .andExpect(jsonPath("$.response[3].review").exists())
-                .andExpect(jsonPath("$.response[3].review.content", is("I like it!")))
-                .andExpect(jsonPath("$.response[4].seq", is(3)))
-                .andExpect(jsonPath("$.response[4].productId", is(productIdForOrderId.get(3))))
-                .andExpect(jsonPath("$.response[4].state", is(stateForOrderId.get(3))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.length()", is(5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].seq", is(7)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].productId", is(productIdForOrderId.get(7))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].state", is(stateForOrderId.get(7))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].seq", is(6)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].productId", is(productIdForOrderId.get(6))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].state", is(stateForOrderId.get(6))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].rejectMessage", is(rejectMessageForOrderId.get(6))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[1].rejectedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[2].seq", is(5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[2].productId", is(productIdForOrderId.get(5))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[2].state", is(stateForOrderId.get(5))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[2].completedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].seq", is(4)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].productId", is(productIdForOrderId.get(4))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].state", is(stateForOrderId.get(4))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].requestMessage", is(requestMessageForOrderId.get(4))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].completedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].review").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[3].review.content", is("I like it!")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[4].seq", is(3)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[4].productId", is(productIdForOrderId.get(3))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response[4].state", is(stateForOrderId.get(3))))
         ;
     }
 
@@ -220,10 +223,10 @@ class OrderRestControllerTest {
         );
         result.andDo(print())
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.success", is(false)))
-                .andExpect(jsonPath("$.error").exists())
-                .andExpect(jsonPath("$.error.status", is(401)))
-                .andExpect(jsonPath("$.error.message", is("Unauthorized")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(false)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error.status", is(401)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error.message", is("Unauthorized")))
         ;
     }
 
@@ -241,40 +244,40 @@ class OrderRestControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(handler().handlerType(OrderRestController.class))
                     .andExpect(handler().methodName("findById"))
-                    .andExpect(jsonPath("$.success", is(true)))
-                    .andExpect(jsonPath("$.response.seq", is(i)))
-                    .andExpect(jsonPath("$.response.productId", is(productIdForOrderId.get(i))))
-                    .andExpect(jsonPath("$.response.state", is(stateForOrderId.get(i))))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.seq", is(i)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.productId", is(productIdForOrderId.get(i))))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.state", is(stateForOrderId.get(i))))
             ;
             if (i == 4) {
                 result
-                        .andExpect(jsonPath("$.response.requestMessage", is(requestMessageForOrderId.get(i))))
-                        .andExpect(jsonPath("$.response.completedAt").exists())
-                        .andExpect(jsonPath("$.response.rejectMessage").doesNotExist())
-                        .andExpect(jsonPath("$.response.rejectedAt").doesNotExist())
-                        .andExpect(jsonPath("$.response.review").exists())
-                        .andExpect(jsonPath("$.response.review.content", is("I like it!")))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.requestMessage", is(requestMessageForOrderId.get(i))))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.completedAt").exists())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectMessage").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectedAt").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.review").exists())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.review.content", is("I like it!")))
                 ;
             } else if (i == 5) {
-                result.andExpect(jsonPath("$.response.requestMessage").doesNotExist())
-                        .andExpect(jsonPath("$.response.completedAt").exists())
-                        .andExpect(jsonPath("$.response.rejectMessage").doesNotExist())
-                        .andExpect(jsonPath("$.response.rejectedAt").doesNotExist())
-                        .andExpect(jsonPath("$.response.review").doesNotExist())
+                result.andExpect(MockMvcResultMatchers.jsonPath("$.response.requestMessage").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.completedAt").exists())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectMessage").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectedAt").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.review").doesNotExist())
                 ;
             } else if (i == 6) {
-                result.andExpect(jsonPath("$.response.requestMessage").doesNotExist())
-                        .andExpect(jsonPath("$.response.completedAt").doesNotExist())
-                        .andExpect(jsonPath("$.response.rejectMessage", is("No stock")))
-                        .andExpect(jsonPath("$.response.rejectedAt").exists())
-                        .andExpect(jsonPath("$.response.review").doesNotExist())
+                result.andExpect(MockMvcResultMatchers.jsonPath("$.response.requestMessage").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.completedAt").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectMessage", is("No stock")))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectedAt").exists())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.review").doesNotExist())
                 ;
             } else {
-                result.andExpect(jsonPath("$.response.requestMessage").doesNotExist())
-                        .andExpect(jsonPath("$.response.completedAt").doesNotExist())
-                        .andExpect(jsonPath("$.response.rejectMessage").doesNotExist())
-                        .andExpect(jsonPath("$.response.rejectedAt").doesNotExist())
-                        .andExpect(jsonPath("$.response.review").doesNotExist())
+                result.andExpect(MockMvcResultMatchers.jsonPath("$.response.requestMessage").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.completedAt").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectMessage").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectedAt").doesNotExist())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.review").doesNotExist())
                 ;
             }
         }
@@ -291,10 +294,10 @@ class OrderRestControllerTest {
         );
         result.andDo(print())
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.success", is(false)))
-                .andExpect(jsonPath("$.error").exists())
-                .andExpect(jsonPath("$.error.status", is(401)))
-                .andExpect(jsonPath("$.error.message", is("Unauthorized")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(false)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error.status", is(401)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error.message", is("Unauthorized")))
         ;
     }
 
@@ -311,8 +314,8 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("accept"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response", is(true)))
         ;
         result = mockMvc.perform(
                 get("/api/orders/1")
@@ -322,9 +325,9 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("findById"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response.seq", is(1)))
-                .andExpect(jsonPath("$.response.state", is("ACCEPTED")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.seq", is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.state", is("ACCEPTED")))
         ;
     }
 
@@ -342,8 +345,8 @@ class OrderRestControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(handler().handlerType(OrderRestController.class))
                     .andExpect(handler().methodName("accept"))
-                    .andExpect(jsonPath("$.success", is(true)))
-                    .andExpect(jsonPath("$.response", is(false)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response", is(false)))
             ;
             result = mockMvc.perform(
                     get("/api/orders/" + i)
@@ -353,9 +356,9 @@ class OrderRestControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(handler().handlerType(OrderRestController.class))
                     .andExpect(handler().methodName("findById"))
-                    .andExpect(jsonPath("$.success", is(true)))
-                    .andExpect(jsonPath("$.response.seq", is(i)))
-                    .andExpect(jsonPath("$.response.state", is(stateForOrderId.get(i))))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.seq", is(i)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.state", is(stateForOrderId.get(i))))
             ;
         }
     }
@@ -373,8 +376,8 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("shipping"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response", is(true)))
         ;
         result = mockMvc.perform(
                 get("/api/orders/2")
@@ -384,9 +387,9 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("findById"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response.seq", is(2)))
-                .andExpect(jsonPath("$.response.state", is("SHIPPING")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.seq", is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.state", is("SHIPPING")))
         ;
     }
 
@@ -404,8 +407,8 @@ class OrderRestControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(handler().handlerType(OrderRestController.class))
                     .andExpect(handler().methodName("shipping"))
-                    .andExpect(jsonPath("$.success", is(true)))
-                    .andExpect(jsonPath("$.response", is(false)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response", is(false)))
             ;
             result = mockMvc.perform(
                     get("/api/orders/" + i)
@@ -415,9 +418,9 @@ class OrderRestControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(handler().handlerType(OrderRestController.class))
                     .andExpect(handler().methodName("findById"))
-                    .andExpect(jsonPath("$.success", is(true)))
-                    .andExpect(jsonPath("$.response.seq", is(i)))
-                    .andExpect(jsonPath("$.response.state", is(stateForOrderId.get(i))))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.seq", is(i)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.state", is(stateForOrderId.get(i))))
             ;
         }
     }
@@ -436,8 +439,8 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("complete"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response", is(true)))
         ;
         result = mockMvc.perform(
                 get("/api/orders/3")
@@ -447,10 +450,10 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("findById"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response.seq", is(3)))
-                .andExpect(jsonPath("$.response.state", is("COMPLETED")))
-                .andExpect(jsonPath("$.response.completedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.seq", is(3)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.state", is("COMPLETED")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.completedAt").exists())
         ;
     }
 
@@ -468,8 +471,8 @@ class OrderRestControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(handler().handlerType(OrderRestController.class))
                     .andExpect(handler().methodName("complete"))
-                    .andExpect(jsonPath("$.success", is(true)))
-                    .andExpect(jsonPath("$.response", is(false)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response", is(false)))
             ;
             result = mockMvc.perform(
                     get("/api/orders/" + i)
@@ -479,9 +482,9 @@ class OrderRestControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(handler().handlerType(OrderRestController.class))
                     .andExpect(handler().methodName("findById"))
-                    .andExpect(jsonPath("$.success", is(true)))
-                    .andExpect(jsonPath("$.response.seq", is(i)))
-                    .andExpect(jsonPath("$.response.state", is(stateForOrderId.get(i))))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.seq", is(i)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.state", is(stateForOrderId.get(i))))
             ;
         }
     }
@@ -501,8 +504,8 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("reject"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response", is(true)))
         ;
         result = mockMvc.perform(
                 get("/api/orders/7")
@@ -512,11 +515,11 @@ class OrderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("findById"))
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response.seq", is(7)))
-                .andExpect(jsonPath("$.response.state", is("REJECTED")))
-                .andExpect(jsonPath("$.response.rejectMessage", is("this is reject message!")))
-                .andExpect(jsonPath("$.response.rejectedAt").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.seq", is(7)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.state", is("REJECTED")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectMessage", is("this is reject message!")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.rejectedAt").exists())
         ;
     }
 
@@ -534,9 +537,9 @@ class OrderRestControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andExpect(handler().handlerType(OrderRestController.class))
                 .andExpect(handler().methodName("reject"))
-                .andExpect(jsonPath("$.success", is(false)))
-                .andExpect(jsonPath("$.error").exists())
-                .andExpect(jsonPath("$.error.status", is(400)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(false)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error.status", is(400)))
         ;
     }
 
@@ -556,8 +559,8 @@ class OrderRestControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(handler().handlerType(OrderRestController.class))
                     .andExpect(handler().methodName("reject"))
-                    .andExpect(jsonPath("$.success", is(true)))
-                    .andExpect(jsonPath("$.response", is(false)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response", is(false)))
             ;
             result = mockMvc.perform(
                     get("/api/orders/" + i)
@@ -567,15 +570,15 @@ class OrderRestControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(handler().handlerType(OrderRestController.class))
                     .andExpect(handler().methodName("findById"))
-                    .andExpect(jsonPath("$.success", is(true)))
-                    .andExpect(jsonPath("$.response.seq", is(i)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.success", is(true)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.response.seq", is(i)))
             ;
             if (i == 2) {
-                result.andExpect(jsonPath("$.response.state", anyOf(is("ACCEPTED"), is("SHIPPING"))));
+                result.andExpect(MockMvcResultMatchers.jsonPath("$.response.state", anyOf(is("ACCEPTED"), is("SHIPPING"))));
             } else if (i == 3) {
-                result.andExpect(jsonPath("$.response.state", anyOf(is("SHIPPING"), is("COMPLETED"))));
+                result.andExpect(MockMvcResultMatchers.jsonPath("$.response.state", anyOf(is("SHIPPING"), is("COMPLETED"))));
             } else {
-                result.andExpect(jsonPath("$.response.state", is(stateForOrderId.get(i))));
+                result.andExpect(MockMvcResultMatchers.jsonPath("$.response.state", is(stateForOrderId.get(i))));
             }
         }
     }

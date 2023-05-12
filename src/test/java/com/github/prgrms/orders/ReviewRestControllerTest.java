@@ -2,8 +2,10 @@ package com.github.prgrms.orders;
 
 import com.github.prgrms.configures.JwtTokenConfigure;
 import com.github.prgrms.products.ProductRestController;
+import com.github.prgrms.reviews.ReviewRestController;
 import com.github.prgrms.security.WithMockJwtAuthentication;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -126,13 +128,12 @@ class ReviewRestControllerTest {
     @WithMockJwtAuthentication
     @DisplayName("리뷰 작성 실패 테스트 (리뷰 내용 최대 길이 초과)")
     void reviewFailureTest5() throws Exception {
-        ResultActions result = mockMvc.perform(
-                post("/api/orders/5/review")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content("{\"content\":\"" + randomAlphanumeric(1001) + "\"}")
-        );
-        result.andDo(print())
+        mockMvc.perform(
+                        post("/api/orders/5/review")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content("{\"content\":\"" + randomAlphanumeric(1001) + "\"}")
+                ).andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(handler().handlerType(ReviewRestController.class))
                 .andExpect(handler().methodName("review"))

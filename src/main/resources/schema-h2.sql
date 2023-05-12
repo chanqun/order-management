@@ -26,8 +26,8 @@ CREATE TABLE products(
 
 CREATE TABLE reviews (
   seq           bigint NOT NULL AUTO_INCREMENT, --리뷰 PK
-  user_seq      bigint NOT NULL,                --리뷰 작성자 PK (users 테이블 참조)
-  product_seq   bigint NOT NULL,                --리뷰 상품 PK (products 테이블 참조)
+  user_seq      bigint NULL,                --리뷰 작성자 PK (users 테이블 참조)
+  product_seq   bigint NULL,                --리뷰 상품 PK (products 테이블 참조)
   content       varchar(1000) NOT NULL,         --리뷰 내용
   create_at     datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (seq),
