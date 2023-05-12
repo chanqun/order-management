@@ -1,5 +1,6 @@
 package com.github.prgrms.reviews;
 
+import com.github.prgrms.configures.web.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -42,6 +43,11 @@ public class JdbcReviewRepository implements ReviewRepository {
     @Override
     public List<Review> findAll() {
         return jdbcTemplate.query("select * from reviews", mapper);
+    }
+
+    @Override
+    public List<Review> findAll(Pageable pageable) {
+        return jdbcTemplate.query("select * from reviews limit ? offset ?", mapper, pageable.getSize(), pageable.getOffset());
     }
 
     static RowMapper<Review> mapper = (rs, rowNum) ->

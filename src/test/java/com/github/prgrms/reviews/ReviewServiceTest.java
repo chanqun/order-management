@@ -1,11 +1,13 @@
 package com.github.prgrms.reviews;
 
+import com.github.prgrms.configures.web.Pageable;
+import com.github.prgrms.configures.web.SimplePageRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,5 +54,15 @@ class ReviewServiceTest {
         Review findReview = reviewRepository.findById(review.getSeq()).get();
 
         assertThat(findReview.getContent()).isEqualTo("content2");
+    }
+
+    @Test
+    void 리뷰_페이지() {
+        reviewService.review("content1");
+        reviewService.review("content2");
+
+        List<Review> reviews = reviewRepository.findAll(new SimplePageRequest(1, 2));
+
+        reviews.forEach(System.out::println);
     }
 }

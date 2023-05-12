@@ -30,4 +30,13 @@ public class Review {
     public LocalDateTime getCreateAt() {
         return createAt;
     }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "seq=" + seq +
+                ", content='" + content + '\'' +
+                ", createAt=" + createAt +
+                '}';
+    }
 }
