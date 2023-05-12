@@ -8,17 +8,17 @@ import static org.springframework.security.core.authority.AuthorityUtils.createA
 
 public class WithMockJwtAuthenticationSecurityContextFactory implements WithSecurityContextFactory<WithMockJwtAuthentication> {
 
-  @Override
-  public SecurityContext createSecurityContext(WithMockJwtAuthentication annotation) {
-    SecurityContext context = SecurityContextHolder.createEmptyContext();
-    JwtAuthenticationToken authentication =
-      new JwtAuthenticationToken(
-        new JwtAuthentication(annotation.id(), annotation.name()),
-        null,
-        createAuthorityList(annotation.role())
-      );
-    context.setAuthentication(authentication);
-    return context;
-  }
+    @Override
+    public SecurityContext createSecurityContext(WithMockJwtAuthentication annotation) {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        JwtAuthenticationToken authentication =
+                new JwtAuthenticationToken(
+                        new JwtAuthentication(annotation.id(), annotation.name()),
+                        null,
+                        createAuthorityList(annotation.role())
+                );
+        context.setAuthentication(authentication);
+        return context;
+    }
 
 }

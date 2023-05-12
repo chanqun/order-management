@@ -11,14 +11,14 @@ import java.util.List;
 @Configuration
 public class WebMvcConfigure implements WebMvcConfigurer {
 
-  @Bean
-  public SimplePageRequestHandlerMethodArgumentResolver simplePageRequestHandlerMethodArgumentResolver() {
-    return new SimplePageRequestHandlerMethodArgumentResolver();
-  }
+    @Bean
+    public SimplePageRequestHandlerMethodArgumentResolver simplePageRequestHandlerMethodArgumentResolver() {
+        return new SimplePageRequestHandlerMethodArgumentResolver();
+    }
 
-  @Override
-  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-    argumentResolvers.add(simplePageRequestHandlerMethodArgumentResolver());
-  }
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(simplePageRequestHandlerMethodArgumentResolver());
+    }
 
 }

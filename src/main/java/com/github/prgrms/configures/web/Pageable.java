@@ -2,8 +2,8 @@ package com.github.prgrms.configures.web;
 
 public interface Pageable {
 
-  long getOffset();
+    long getOffset();
 
-  int getSize();
+    int getSize();
 
 }

@@ -21,76 +21,76 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 
-  private final Jwt jwt;
+    private final Jwt jwt;
 
-  private final JwtTokenConfigure jwtTokenConfigure;
+    private final JwtTokenConfigure jwtTokenConfigure;
 
-  private final JwtAccessDeniedHandler accessDeniedHandler;
+    private final JwtAccessDeniedHandler accessDeniedHandler;
 
-  private final EntryPointUnauthorizedHandler unauthorizedHandler;
+    private final EntryPointUnauthorizedHandler unauthorizedHandler;
 
-  public WebSecurityConfigure(Jwt jwt, JwtTokenConfigure jwtTokenConfigure, JwtAccessDeniedHandler accessDeniedHandler, EntryPointUnauthorizedHandler unauthorizedHandler) {
-    this.jwt = jwt;
-    this.jwtTokenConfigure = jwtTokenConfigure;
-    this.accessDeniedHandler = accessDeniedHandler;
-    this.unauthorizedHandler = unauthorizedHandler;
-  }
+    public WebSecurityConfigure(Jwt jwt, JwtTokenConfigure jwtTokenConfigure, JwtAccessDeniedHandler accessDeniedHandler, EntryPointUnauthorizedHandler unauthorizedHandler) {
+        this.jwt = jwt;
+        this.jwtTokenConfigure = jwtTokenConfigure;
+        this.accessDeniedHandler = accessDeniedHandler;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
-  @Bean
-  public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
-    return new JwtAuthenticationTokenFilter(jwtTokenConfigure.getHeader(), jwt);
-  }
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+        return new JwtAuthenticationTokenFilter(jwtTokenConfigure.getHeader(), jwt);
+    }
 
-  @Override
-  public void configure(WebSecurity web) {
-    web.ignoring().antMatchers("/webjars/**", "/static/**", "/templates/**", "/h2/**");
-  }
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/webjars/**", "/static/**", "/templates/**", "/h2/**");
+    }
 
-  @Autowired
-  public void configureAuthentication(AuthenticationManagerBuilder builder, JwtAuthenticationProvider authenticationProvider) {
-    builder.authenticationProvider(authenticationProvider);
-  }
+    @Autowired
+    public void configureAuthentication(AuthenticationManagerBuilder builder, JwtAuthenticationProvider authenticationProvider) {
+        builder.authenticationProvider(authenticationProvider);
+    }
 
-  @Bean
-  public JwtAuthenticationProvider jwtAuthenticationProvider(UserService userService) {
-    return new JwtAuthenticationProvider(userService);
-  }
+    @Bean
+    public JwtAuthenticationProvider jwtAuthenticationProvider(UserService userService) {
+        return new JwtAuthenticationProvider(userService);
+    }
 
-  @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http
-      .csrf()
-        .disable()
-      .headers()
-       .disable()
-      .exceptionHandling()
-        .accessDeniedHandler(accessDeniedHandler)
-        .authenticationEntryPoint(unauthorizedHandler)
-        .and()
-      .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-      .authorizeRequests()
-        .antMatchers("/api/users/login").permitAll()
-        .antMatchers("/api/products/**").permitAll()
-        .antMatchers("/api/**").hasRole(Role.USER.name())
-        .anyRequest().permitAll()
-        .and()
-      .formLogin()
-       .disable();
-    http
-      .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf()
+                .disable()
+                .headers()
+                .disable()
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/users/login").permitAll()
+                .antMatchers("/api/products/**").permitAll()
+                .antMatchers("/api/**").hasRole(Role.USER.name())
+                .anyRequest().permitAll()
+                .and()
+                .formLogin()
+                .disable();
+        http
+                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
 
 }

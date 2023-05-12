@@ -20,7 +20,7 @@ spring:
       maximum-pool-size: 5
       pool-name: H2_DB
 server:
-  port: 5000
+  port: 8080
 jwt:
   token:
     header: X-PRGRMS-AUTH

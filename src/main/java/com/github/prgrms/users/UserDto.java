@@ -9,71 +9,71 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 
 public class UserDto {
 
-  private String name;
+    private String name;
 
-  private Email email;
+    private Email email;
 
-  private int loginCount;
+    private int loginCount;
 
-  private LocalDateTime lastLoginAt;
+    private LocalDateTime lastLoginAt;
 
-  private LocalDateTime createAt;
+    private LocalDateTime createAt;
 
-  public UserDto(User source) {
-    copyProperties(source, this);
+    public UserDto(User source) {
+        copyProperties(source, this);
 
-    this.lastLoginAt = source.getLastLoginAt().orElse(null);
-  }
+        this.lastLoginAt = source.getLastLoginAt().orElse(null);
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public Email getEmail() {
-    return email;
-  }
+    public Email getEmail() {
+        return email;
+    }
 
-  public void setEmail(Email email) {
-    this.email = email;
-  }
+    public void setEmail(Email email) {
+        this.email = email;
+    }
 
-  public int getLoginCount() {
-    return loginCount;
-  }
+    public int getLoginCount() {
+        return loginCount;
+    }
 
-  public void setLoginCount(int loginCount) {
-    this.loginCount = loginCount;
-  }
+    public void setLoginCount(int loginCount) {
+        this.loginCount = loginCount;
+    }
 
-  public LocalDateTime getLastLoginAt() {
-    return lastLoginAt;
-  }
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
 
-  public void setLastLoginAt(LocalDateTime lastLoginAt) {
-    this.lastLoginAt = lastLoginAt;
-  }
+    public void setLastLoginAt(LocalDateTime lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
+    }
 
-  public LocalDateTime getCreateAt() {
-    return createAt;
-  }
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
 
-  public void setCreateAt(LocalDateTime createAt) {
-    this.createAt = createAt;
-  }
+    public void setCreateAt(LocalDateTime createAt) {
+        this.createAt = createAt;
+    }
 
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-      .append("name", name)
-      .append("email", email)
-      .append("loginCount", loginCount)
-      .append("lastLoginAt", lastLoginAt)
-      .append("createAt", createAt)
-      .toString();
-  }
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("name", name)
+                .append("email", email)
+                .append("loginCount", loginCount)
+                .append("lastLoginAt", lastLoginAt)
+                .append("createAt", createAt)
+                .toString();
+    }
 
 }
