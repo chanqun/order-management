@@ -7,7 +7,9 @@ public interface ReviewRepository {
 
     void save(String content);
 
-    Optional<Review> findById(Long reviewSeq);
+    Optional<Review> findById(Long seq);
 
     List<Review> findAll();
+
+    void update(Long id, String content);
 }

@@ -1,7 +1,5 @@
 package com.github.prgrms.reviews;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.github.prgrms.products.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -32,8 +30,13 @@ public class JdbcReviewRepository implements ReviewRepository {
     }
 
     @Override
-    public Optional<Review> findById(Long reviewSeq) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from reviews where seq = ?", Review.class, reviewSeq));
+    public void update(Long seq, String content) {
+        jdbcTemplate.update("update reviews set content = ? where seq = ?", content, seq);
+    }
+
+    @Override
+    public Optional<Review> findById(Long seq) {
+        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from reviews where seq = ?", mapper, seq));
     }
 
     @Override
